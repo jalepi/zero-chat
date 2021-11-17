@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Channels;
+global using System.Threading.Tasks;
+global using NetMQ;
+global using NetMQ.Sockets;
+global using System.Text.Json;
+global using ZeroChat.Contracts;
+global using ZeroChat.Contracts.Commands;
+global using ZeroChat.Contracts.Messages;
