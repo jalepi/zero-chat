@@ -25,7 +25,7 @@ public class DummySubscriber : IRunner
 
             Console.WriteLine($"SubscriptionMessage: topic={topic}, author={channelMessage.Author}, content={channelMessage.Content}, timestamp={channelMessage.Timestamp:o}");
 
-            await Task.Delay(1000);
+            await Task.Delay(1000, cancellationToken);
         }
     }
 }

@@ -6,6 +6,7 @@ class Program
 {
     public static async Task Main(string[] args)
     {
+        _ = args;
         var options = new BoundedChannelOptions(100)
         {
             FullMode = BoundedChannelFullMode.Wait,
@@ -43,6 +44,7 @@ class Program
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex);
             cancellationTokenSource.Cancel();
             Thread.Sleep(1_000);
         }

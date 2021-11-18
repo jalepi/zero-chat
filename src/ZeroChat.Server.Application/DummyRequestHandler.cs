@@ -34,7 +34,7 @@ public class DummyRequestHandler : IRunner
                 Console.WriteLine(ex);
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(1000, cancellationToken);
         }
     }
 }
