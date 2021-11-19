@@ -9,7 +9,7 @@ public class DummyRequestHandler : IRunner
         this.connectionString = connectionString;
     }
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task RunAsync(CancellationToken cancellationToken)
     {
         using var socket = new RequestSocket(connectionString);
 

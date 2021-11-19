@@ -2,5 +2,10 @@
 
 public interface IRunner
 {
-    Task Run(CancellationToken cancellationToken);
+    Task RunAsync(CancellationToken cancellationToken);
+}
+
+public interface IRunner<T>
+{
+    Task RunAsync(T options, CancellationToken cancellationToken);
 }

@@ -10,5 +10,10 @@
             DataContext = dataContext;
             InitializeComponent();
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+        }
     }
 }

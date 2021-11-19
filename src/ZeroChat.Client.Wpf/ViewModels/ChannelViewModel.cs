@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZeroChat.Client.Wpf.Commands;
 
 namespace ZeroChat.Client.Wpf.ViewModels;
 
-public class ChannelViewModel
+public record ChannelViewModel(
+    string ChannelId,
+    ChannelComposeMessageCommand ComposeMessageCommand,
+    ICollection<ChannelMessageViewModel> Messages) : BaseViewModel
 {
-    private readonly ICollection<ChannelMessageViewModel> _messages;
-
-    public ChannelViewModel(ICollection<ChannelMessageViewModel> messages)
+    private string _composingText = "";
+    public string ConsposingText
     {
-        _messages = messages;
+        get => _composingText;
+        set => SetProperty(ref _composingText, value);
     }
-
-    public string ChannelId { get; init; } = "";
-    public ICollection<ChannelMessageViewModel> Messages => _messages;
 }

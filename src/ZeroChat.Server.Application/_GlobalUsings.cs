@@ -10,3 +10,4 @@ global using System.Text.Json;
 global using ZeroChat.Contracts;
 global using ZeroChat.Contracts.Commands;
 global using ZeroChat.Contracts.Messages;
+global using ZeroChat.Contracts.Requests;

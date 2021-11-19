@@ -1,11 +1,15 @@
 ﻿global using System;
 global using System.Collections.Generic;
 global using System.Collections.ObjectModel;
+global using System.ComponentModel;
 global using System.Linq;
+global using System.Runtime.CompilerServices;
 global using System.Text;
 global using System.Threading.Tasks;
 global using System.Windows;
+global using System.Windows.Input;
 global using Microsoft.Extensions.DependencyInjection;
 global using ZeroChat.Client.Wpf;
 global using ZeroChat.Client.Wpf.Settings;
 global using ZeroChat.Client.Wpf.ViewModels;
+global using ZeroChat.Client.Wpf.Commands;

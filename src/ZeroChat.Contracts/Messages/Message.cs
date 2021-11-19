@@ -1,3 +1,3 @@
 ﻿namespace ZeroChat.Contracts.Messages;
 
-public record Message(Topic Topic, string Content);
+public record Message(string Topic, string Payload);
