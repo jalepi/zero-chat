@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Server.Application;
+﻿namespace ZeroChat.Shared;
 
 public interface IHandler<T, TResult>
 {

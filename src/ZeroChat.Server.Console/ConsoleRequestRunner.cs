@@ -1,7 +1,7 @@
 ﻿using System.Threading.Channels;
-using ZeroChat.Contracts;
-using ZeroChat.Contracts.Requests;
-using ZeroChat.Server.Application;
+using ZeroChat.Shared;
+using ZeroChat.Shared.Protocols;
+using ZeroChat.Shared;
 
 internal record ConsoleRequestRunner(PushAsync<RequestCall> PushAsync) : IRunner
 {

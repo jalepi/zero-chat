@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Client.Wpf.Commands;
+﻿namespace ZeroChat.Client.Commands;
 
 public record ChannelComposeMessageCommand : ICommand
 {

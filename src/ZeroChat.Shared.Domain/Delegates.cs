@@ -1,4 +1,8 @@
-﻿namespace ZeroChat.Contracts;
+﻿namespace ZeroChat.Shared;
+
+public delegate Task AsyncCallback<T>(T value, CancellationToken cancellationToken);
+
+public delegate void Callback<T>(T value);
 
 public delegate ValueTask<T> PullAsync<T>(CancellationToken cancellationToken);
 

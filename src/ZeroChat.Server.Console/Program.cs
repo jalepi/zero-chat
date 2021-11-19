@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Channels;
-using ZeroChat.Contracts.Messages;
-using ZeroChat.Contracts.Requests;
-using ZeroChat.Server.Application;
+using ZeroChat.Shared.Protocols;
+using ZeroChat.Shared.Protocols;
+using ZeroChat.Shared;
 
 class Program
 {

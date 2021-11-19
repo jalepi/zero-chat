@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Server.Application;
+﻿namespace ZeroChat.Shared;
 
 public record MessageRequestHandler(PushAsync<Message> PushAsync) : IHandler<Request, Response>
 {

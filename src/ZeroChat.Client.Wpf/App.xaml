@@ -1,7 +1,7 @@
-﻿<Application x:Class="ZeroChat.Client.Wpf.App"
+﻿<Application x:Class="ZeroChat.Client.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ZeroChat.Client.Wpf">
+             xmlns:local="clr-namespace:ZeroChat.Client">
     <Application.Resources>
          
     </Application.Resources>

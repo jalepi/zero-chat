@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Client.Wpf.ViewModels;
+﻿namespace ZeroChat.Client.ViewModels;
 
 public class ApplicationViewModel
 {

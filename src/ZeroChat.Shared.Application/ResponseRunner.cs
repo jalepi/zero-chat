@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Server.Application;
+﻿namespace ZeroChat.Shared;
 
 public record ResponseRunnerOptions(string ConnectionString, Handle<Request, Response> HandlAsync);
 

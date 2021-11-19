@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZeroChat.Client.Wpf.Settings;
+namespace ZeroChat.Client.Settings;
 
 public class ConnectionSettings
 {

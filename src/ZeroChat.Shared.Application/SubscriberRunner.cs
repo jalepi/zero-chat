@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Server.Application;
+﻿namespace ZeroChat.Shared;
 
 public record SubscriberRunnerOptions(string ConnectionString, string Topic, PushAsync<Message> PushAsync);
 

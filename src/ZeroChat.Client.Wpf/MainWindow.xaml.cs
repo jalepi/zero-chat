@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Client.Wpf
+﻿namespace ZeroChat.Client
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

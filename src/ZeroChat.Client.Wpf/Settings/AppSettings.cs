@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Client.Wpf.Settings;
+﻿namespace ZeroChat.Client.Settings;
 
 public class AppSettings
 {

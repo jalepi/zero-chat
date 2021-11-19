@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZeroChat.Client.Wpf.Commands;
+using ZeroChat.Client.Commands;
 
-namespace ZeroChat.Client.Wpf.ViewModels;
+namespace ZeroChat.Client.ViewModels;
 
 public record ChannelViewModel(
     string ChannelId,

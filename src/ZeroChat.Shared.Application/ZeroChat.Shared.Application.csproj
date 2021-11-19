@@ -1,19 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<RootNamespace>ZeroChat.Server</RootNamespace>
-		<OutputType>Exe</OutputType>
+		<RootNamespace>ZeroChat.Shared</RootNamespace>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+		<PackageReference Include="NetMQ" Version="4.0.1.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ZeroChat.Shared.Application\ZeroChat.Shared.Application.csproj" />
 		<ProjectReference Include="..\ZeroChat.Shared.Domain\ZeroChat.Shared.Domain.csproj" />
 	</ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Server.Application;
+﻿namespace ZeroChat.Shared;
 
 public record PublisherRunnerOptions(string ConnectionString, PullAsync<Message> PullAsync);
 

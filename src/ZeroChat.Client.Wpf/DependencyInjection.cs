@@ -1,6 +1,6 @@
-﻿using ZeroChat.Client.Wpf.Commands;
+﻿using ZeroChat.Client.Commands;
 
-namespace ZeroChat.Client.Wpf;
+namespace ZeroChat.Client;
 
 internal static class DependencyInjection
 {

@@ -1,4 +1,4 @@
-﻿namespace ZeroChat.Server.Application;
+﻿namespace ZeroChat.Shared;
 
 public record RequestRunnerOptions(string ConnectionString, PullAsync<RequestCall> PullAsync);
 

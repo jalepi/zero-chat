@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace ZeroChat.Client.Wpf
+namespace ZeroChat.Client
 {
     /// <summary>
     /// Interaction logic for App.xaml

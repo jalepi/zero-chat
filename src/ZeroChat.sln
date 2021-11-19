@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Contracts", "ZeroChat.Contracts\ZeroChat.Contracts.csproj", "{69B512F7-9B54-40D4-A0BB-FA527B7E4733}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Server.Console", "ZeroChat.Server.Console\ZeroChat.Server.Console.csproj", "{91414942-1EAE-49D2-AEC8-CD708162B238}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroChat.Server.Console", "ZeroChat.Server.Console\ZeroChat.Server.Console.csproj", "{91414942-1EAE-49D2-AEC8-CD708162B238}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Client.Wpf", "ZeroChat.Client.Wpf\ZeroChat.Client.Wpf.csproj", "{A97672E1-5FF6-43C4-AAC5-84E3EA7470A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroChat.Server.Application", "ZeroChat.Server.Application\ZeroChat.Server.Application.csproj", "{EA9A0427-EB5D-45A3-B96C-36C298E445EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Shared.Domain", "ZeroChat.Shared.Domain\ZeroChat.Shared.Domain.csproj", "{2C5190BC-64BE-42EF-8687-861F827AADF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroChat.Client.Wpf", "ZeroChat.Client.Wpf\ZeroChat.Client.Wpf.csproj", "{A97672E1-5FF6-43C4-AAC5-84E3EA7470A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Shared.Application", "ZeroChat.Shared.Application\ZeroChat.Shared.Application.csproj", "{71B45D16-8CA8-4434-BD70-0FAB657D4001}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{69B512F7-9B54-40D4-A0BB-FA527B7E4733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69B512F7-9B54-40D4-A0BB-FA527B7E4733}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69B512F7-9B54-40D4-A0BB-FA527B7E4733}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69B512F7-9B54-40D4-A0BB-FA527B7E4733}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91414942-1EAE-49D2-AEC8-CD708162B238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{91414942-1EAE-49D2-AEC8-CD708162B238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91414942-1EAE-49D2-AEC8-CD708162B238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91414942-1EAE-49D2-AEC8-CD708162B238}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA9A0427-EB5D-45A3-B96C-36C298E445EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA9A0427-EB5D-45A3-B96C-36C298E445EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA9A0427-EB5D-45A3-B96C-36C298E445EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA9A0427-EB5D-45A3-B96C-36C298E445EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A97672E1-5FF6-43C4-AAC5-84E3EA7470A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A97672E1-5FF6-43C4-AAC5-84E3EA7470A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A97672E1-5FF6-43C4-AAC5-84E3EA7470A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A97672E1-5FF6-43C4-AAC5-84E3EA7470A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C5190BC-64BE-42EF-8687-861F827AADF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5190BC-64BE-42EF-8687-861F827AADF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5190BC-64BE-42EF-8687-861F827AADF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5190BC-64BE-42EF-8687-861F827AADF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
