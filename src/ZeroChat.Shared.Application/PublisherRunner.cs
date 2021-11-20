@@ -1,12 +1,12 @@
 ﻿namespace ZeroChat.Shared;
 
-public record PublisherRunnerOptions(string ConnectionString, PullAsync<Message> PullAsync);
+public record PublisherOptions(PullAsync<Message> PullAsync);
 
-public record PublisherRunner : IRunner<PublisherRunnerOptions>
+public record PublisherRunner(string ConnectionString) : IRunner<PublisherOptions>
 {
-    public async Task RunAsync(PublisherRunnerOptions options, CancellationToken cancellationToken)
+    public async Task RunAsync(PublisherOptions options, CancellationToken cancellationToken)
     {
-        using var socket = new PublisherSocket(options.ConnectionString);
+        using var socket = new PublisherSocket(ConnectionString);
 
         while (!cancellationToken.IsCancellationRequested)
         {

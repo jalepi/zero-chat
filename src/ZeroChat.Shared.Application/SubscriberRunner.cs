@@ -1,12 +1,12 @@
 ﻿namespace ZeroChat.Shared;
 
-public record SubscriberRunnerOptions(string ConnectionString, string Topic, PushAsync<Message> PushAsync);
+public record SubscriberOptions(string Topic, PushAsync<Message> PushAsync);
 
-public record SubscriberRunner : IRunner<SubscriberRunnerOptions>
+public record SubscriberRunner(string ConnectionString) : IRunner<SubscriberOptions>
 {
-    public async Task RunAsync(SubscriberRunnerOptions Options, CancellationToken cancellationToken)
+    public async Task RunAsync(SubscriberOptions Options, CancellationToken cancellationToken)
     {
-        using var socket = new SubscriberSocket(Options.ConnectionString);
+        using var socket = new SubscriberSocket(ConnectionString);
         socket.Subscribe(Options.Topic);
 
         while (!cancellationToken.IsCancellationRequested)

@@ -2,8 +2,8 @@
 
 public class AppSettings
 {
-    public string? Value { get; set; }
+    public string? Value { get; init; }
 
-    public ConnectionSettings? ConnectionSettings { get; set; }
+    public ConnectionSettings? ConnectionSettings { get; init; }
 }
 

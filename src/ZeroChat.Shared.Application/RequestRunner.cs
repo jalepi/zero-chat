@@ -1,13 +1,13 @@
 ﻿namespace ZeroChat.Shared;
 
-public record RequestRunnerOptions(string ConnectionString, PullAsync<RequestCall> PullAsync);
+public record RequestOptions(PullAsync<RequestCall> PullAsync);
 
-public record RequestRunner : IRunner<RequestRunnerOptions>
+public record RequestRunner(string ConnectionString) : IRunner<RequestOptions>
 {
-    public async Task RunAsync(RequestRunnerOptions Options, CancellationToken cancellationToken)
+    public async Task RunAsync(RequestOptions Options, CancellationToken cancellationToken)
     {
-        using var socket = new RequestSocket(Options.ConnectionString);
-        
+        using var socket = new RequestSocket(ConnectionString);
+
         while (!cancellationToken.IsCancellationRequested)
         {
             var requestCall = await Options.PullAsync(cancellationToken);

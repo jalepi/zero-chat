@@ -8,6 +8,6 @@ public record ChannelComposeMessageCommand : ICommand
 
     public void Execute(object? parameter)
     {
-        
+
     }
 }

@@ -1,11 +1,10 @@
-﻿using System.Threading.Channels;
-using ZeroChat.Shared;
+﻿using ZeroChat.Shared;
 using ZeroChat.Shared.Protocols;
-using ZeroChat.Shared;
 
-internal record ConsoleRequestRunner(PushAsync<RequestCall> PushAsync) : IRunner
+internal record ConsoleRequestOptions(PushAsync<RequestCall> PushAsync);
+internal record ConsoleRequestRunner : IRunner<ConsoleRequestOptions>
 {
-    public async Task RunAsync(CancellationToken cancellationToken)
+    public async Task RunAsync(ConsoleRequestOptions options, CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -25,7 +24,7 @@ internal record ConsoleRequestRunner(PushAsync<RequestCall> PushAsync) : IRunner
                 });
 
                 Console.WriteLine($"console in: request: {request}");
-                await PushAsync(requestCall, cancellationToken);
+                await options.PushAsync(requestCall, cancellationToken);
             }
             catch (Exception ex)
             {

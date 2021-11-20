@@ -1,8 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Threading.Channels;
-using ZeroChat.Shared.Protocols;
-using ZeroChat.Shared.Protocols;
+﻿using System.Threading.Channels;
 using ZeroChat.Shared;
+using ZeroChat.Shared.Protocols;
 
 class Program
 {
@@ -22,46 +20,36 @@ class Program
         var messageRequestHandler = new MessageRequestHandler(
             PushAsync: messageChannel.Writer.WriteAsync);
 
-        var responseRunner = new ResponseRunner();
-        var responseRunnerOptions = new ResponseRunnerOptions(
-            ConnectionString: "@tcp://localhost:5559",
+        var responseRunner = new ResponseRunner(ConnectionString: "@tcp://localhost:5559");
+        var responseOptions = new ResponseOptions(
             HandlAsync: messageRequestHandler.HandleAsync);
 
-        var publisherRunner = new PublisherRunner();
-        var publisherRunnerOptions = new PublisherRunnerOptions(
-            ConnectionString: "@tcp://localhost:5560",
+        var publisherRunner = new PublisherRunner(ConnectionString: "@tcp://localhost:5560");
+        var publisherOptions = new PublisherOptions(
             PullAsync: messageChannel.Reader.ReadAsync);
 
-        var subscriberRunner = new SubscriberRunner();
-        var subscriberRunnerOptions = new SubscriberRunnerOptions(
-            ConnectionString: "tcp://localhost:5560",
+        var subscriberRunner = new SubscriberRunner(ConnectionString: "tcp://localhost:5560");
+        var subscriberOptions = new SubscriberOptions(
             Topic: "",
             PushAsync: (message, ct) => ValueTask.CompletedTask);
 
-        var requestRunner = new RequestRunner();
-        var requestRunnerOptions = new RequestRunnerOptions(
-            ConnectionString: "tcp://localhost:5559",
+        var requestRunner = new RequestRunner(ConnectionString: "tcp://localhost:5559");
+        var requestOptions = new RequestOptions(
             PullAsync: requestChannel.Reader.ReadAsync);
 
-        var consoleRequestRunner = new ConsoleRequestRunner(
+        var consoleRequestRunner = new ConsoleRequestRunner();
+        var consoleRequestOptions = new ConsoleRequestOptions(
             PushAsync: requestChannel.Writer.WriteAsync);
-
-        //var requestCallProcessorRunnerOptions = new RequestCallProcessorRunnerOptions(
-        //    PullAsync: responseChannel.Reader.ReadAsync,
-        //    PushAsync: messageChannel.Writer.WriteAsync);
-
-        //var requestCallProcessorRunner = new RequestCallProcessorRunner();
 
         CancellationTokenSource cancellationTokenSource = new();
 
         try
         {
-            StartRunner(responseRunner, responseRunnerOptions, cancellationTokenSource.Token);
-            StartRunner(publisherRunner, publisherRunnerOptions, cancellationTokenSource.Token);
-            StartRunner(subscriberRunner, subscriberRunnerOptions, cancellationTokenSource.Token);
-            StartRunner(requestRunner, requestRunnerOptions, cancellationTokenSource.Token);
-            StartRunner(consoleRequestRunner, cancellationTokenSource.Token);
-            //StartRunner(requestCallProcessorRunner, requestCallProcessorRunnerOptions, cancellationTokenSource.Token);
+            StartRunner(responseRunner, responseOptions, cancellationTokenSource.Token);
+            StartRunner(publisherRunner, publisherOptions, cancellationTokenSource.Token);
+            StartRunner(subscriberRunner, subscriberOptions, cancellationTokenSource.Token);
+            StartRunner(requestRunner, requestOptions, cancellationTokenSource.Token);
+            StartRunner(consoleRequestRunner, consoleRequestOptions, cancellationTokenSource.Token);
 
             while (true)
             {
@@ -74,21 +62,6 @@ class Program
             cancellationTokenSource.Cancel();
             Thread.Sleep(1_000);
         }
-    }
-
-    private static void StartRunner(IRunner runner, CancellationToken cancellationToken)
-    {
-        ThreadPool.QueueUserWorkItem(_ =>
-        {
-            try
-            {
-                runner.RunAsync(cancellationToken).GetAwaiter().GetResult();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        });
     }
 
     private static void StartRunner<T>(IRunner<T> runner, T options, CancellationToken cancellationToken)

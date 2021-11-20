@@ -18,7 +18,7 @@ namespace ZeroChat.Client
             var appSettings = configuration.Get<AppSettings>();
 
             var options = new ServiceProviderOptions { ValidateOnBuild = true };
-            
+
             _serviceProvider = new ServiceCollection()
                 .ConfigureServices(appSettings)
                 .BuildServiceProvider(options);

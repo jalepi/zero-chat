@@ -1,13 +1,13 @@
 ﻿namespace ZeroChat.Shared;
 
-public record ResponseRunnerOptions(string ConnectionString, Handle<Request, Response> HandlAsync);
+public record ResponseOptions(Handle<Request, Response> HandlAsync);
 
-public record ResponseRunner : IRunner<ResponseRunnerOptions>
+public record ResponseRunner(string ConnectionString) : IRunner<ResponseOptions>
 {
-    public async Task RunAsync(ResponseRunnerOptions options, CancellationToken cancellationToken)
+    public async Task RunAsync(ResponseOptions options, CancellationToken cancellationToken)
     {
-        using var socket = new ResponseSocket(options.ConnectionString);
-        
+        using var socket = new ResponseSocket(ConnectionString);
+
         while (!cancellationToken.IsCancellationRequested)
         {
             var message = socket.ReceiveMultipartMessage();
@@ -15,7 +15,7 @@ public record ResponseRunner : IRunner<ResponseRunnerOptions>
             var payload = message.Pop().ConvertToString();
 
             Console.WriteLine($"rep in => topic: {topic}, payload: {payload}");
-            
+
             var request = new Request(topic, payload);
 
             var response = await options.HandlAsync(request, cancellationToken);

@@ -1,6 +1,4 @@
-﻿using ZeroChat.Client.Commands;
-
-namespace ZeroChat.Client;
+﻿namespace ZeroChat.Client;
 
 internal static class DependencyInjection
 {
@@ -8,7 +6,11 @@ internal static class DependencyInjection
     {
         _ = appSettings;
 
-        services.AddTransient<ChannelComposeMessageCommand>();
+        services.AddSingleton(new ConnectionSettings
+        {
+            RequestService = ConnectionSettings.DefaultRequestService,
+            MessageService = ConnectionSettings.DefaultMessageService,
+        });
 
         services.AddSingleton(provider =>
         {
@@ -25,13 +27,13 @@ internal static class DependencyInjection
                 Messages: messages);
 
             return new ApplicationViewModel(channels: new ObservableCollection<ChannelViewModel>
-            { 
+            {
                 channel,
             });
         });
 
         services.AddSingleton<MainWindow>();
-        
+
         return services;
     }
 }
