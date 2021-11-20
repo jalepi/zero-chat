@@ -9,5 +9,5 @@ namespace ZeroChat.Client.Settings;
 public class ConnectionSettings
 {
     public string? RequestService { get; set; }
-    public string? SubscriptionService { get; set; }
+    public string? MessageService { get; set; }
 }
