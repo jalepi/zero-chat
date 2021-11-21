@@ -41,15 +41,16 @@ class Program
         var consoleRequestOptions = new ConsoleRequestOptions(
             PushAsync: requestChannel.Writer.WriteAsync);
 
-        CancellationTokenSource cancellationTokenSource = new();
+        CancellationTokenSource cts = new();
 
+        var backgroundService = new BackgroundService();
         try
         {
-            StartRunner(responseRunner, responseOptions, cancellationTokenSource.Token);
-            StartRunner(publisherRunner, publisherOptions, cancellationTokenSource.Token);
-            StartRunner(subscriberRunner, subscriberOptions, cancellationTokenSource.Token);
-            StartRunner(requestRunner, requestOptions, cancellationTokenSource.Token);
-            StartRunner(consoleRequestRunner, consoleRequestOptions, cancellationTokenSource.Token);
+            backgroundService.Start(responseRunner, responseOptions, cts.Token);
+            backgroundService.Start(publisherRunner, publisherOptions, cts.Token);
+            backgroundService.Start(subscriberRunner, subscriberOptions, cts.Token);
+            backgroundService.Start(requestRunner, requestOptions, cts.Token);
+            backgroundService.Start(consoleRequestRunner, consoleRequestOptions, cts.Token);
 
             while (true)
             {
@@ -59,24 +60,9 @@ class Program
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            cancellationTokenSource.Cancel();
+            cts.Cancel();
             Thread.Sleep(1_000);
         }
-    }
-
-    private static void StartRunner<T>(IRunner<T> runner, T options, CancellationToken cancellationToken)
-    {
-        ThreadPool.QueueUserWorkItem(_ =>
-        {
-            try
-            {
-                runner.RunAsync(options, cancellationToken).GetAwaiter().GetResult();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        });
     }
 }
 

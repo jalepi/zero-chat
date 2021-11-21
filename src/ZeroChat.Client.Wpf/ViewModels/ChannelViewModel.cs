@@ -1,14 +1,40 @@
 ﻿namespace ZeroChat.Client.ViewModels;
 
-public record ChannelViewModel(
-    string ChannelId,
-    ChannelComposeMessageCommand ComposeMessageCommand,
-    ICollection<ChannelMessageViewModel> Messages) : BaseViewModel
+public class ChannelViewModel : BaseViewModel
 {
+    public ChannelViewModel(Dispatcher dispatcher, PushAsync<RequestCall> sendRequest)
+    {
+        ComposeMessageCommand = new AsyncCommand<string>(execute: (s, ct) =>
+        {
+            var request = new Request("default", "hello world");
+            var requestCall = new RequestCall(request, response =>
+            {
+                dispatcher.BeginInvoke(() =>
+                {
+                    Messages.Add(new ChannelMessageViewModel
+                    {
+                        AuthorId = "me",
+                        Text = response.Payload,
+                        Timestamp = DateTime.Now,
+                    });
+
+                    ComposingText = "";
+                });
+            });
+            return sendRequest(requestCall, ct);
+        });
+    }
+
+    public string ChannelId { get; init; } = "";
+
+    public AsyncCommand<string> ComposeMessageCommand { get; }
+
     private string _composingText = "";
-    public string ConsposingText
+    public string ComposingText
     {
         get => _composingText;
-        set => SetProperty(ref _composingText, value);
+        set => SetProperty(ref _composingText, value, ComposeMessageCommand.RaiseCanExecuteChanged);
     }
+
+    public ICollection<ChannelMessageViewModel> Messages { get; } = new ObservableCollection<ChannelMessageViewModel>();
 }

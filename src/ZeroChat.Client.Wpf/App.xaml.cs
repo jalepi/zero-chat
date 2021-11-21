@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿
 
 namespace ZeroChat.Client
 {
@@ -7,7 +7,8 @@ namespace ZeroChat.Client
     /// </summary>
     public partial class App : Application
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly CancellationTokenSource cts = new();
+        private readonly IServiceProvider serviceProvider;
 
         public App()
         {
@@ -19,14 +20,27 @@ namespace ZeroChat.Client
 
             var options = new ServiceProviderOptions { ValidateOnBuild = true };
 
-            _serviceProvider = new ServiceCollection()
+            serviceProvider = new ServiceCollection()
                 .ConfigureServices(appSettings)
                 .BuildServiceProvider(options);
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _serviceProvider.GetRequiredService<MainWindow>().Show();
+            var requestRunner = serviceProvider.GetRequiredService<RequestRunner>();
+            var requestOptions = serviceProvider.GetRequiredService<RequestOptions>();
+
+            var backgroundService = new BackgroundService();
+            backgroundService.Start(requestRunner, requestOptions, cts.Token);
+
+            serviceProvider.GetRequiredService<MainWindow>().Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            cts.Cancel();
+            Thread.Sleep(1000);
+            base.OnExit(e);
         }
     }
 }

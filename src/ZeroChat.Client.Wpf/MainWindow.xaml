@@ -21,9 +21,23 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <ItemsControl Grid.Row="0"
+                              ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding AuthorId}" />
+                                <TextBlock Text="{Binding Text}" />
+                                <TextBlock Text="{Binding Timestamp}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <StackPanel Grid.Row="1">
-                    <TextBox Text="{Binding ComposingText}" />
-                    <Button Command="{Binding ComposeMessageCommand}" IsDefault="True">Send</Button>
+                    <TextBox Text="{Binding ComposingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Command="{Binding ComposeMessageCommand}"
+                            CommandParameter="{Binding ComposingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsDefault="True">Send</Button>
                 </StackPanel>
             </Grid>
         </DataTemplate>
