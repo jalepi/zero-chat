@@ -2,11 +2,11 @@
 
 public class AsyncCommand<T> : ICommand
 {
-    private readonly PushAsync<T> execute;
+    private readonly SendAsync<T> execute;
     private readonly Func<T, bool> canExecute;
     private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
 
-    public AsyncCommand(PushAsync<T> execute, Func<T, bool>? canExecute = null)
+    public AsyncCommand(SendAsync<T> execute, Func<T, bool>? canExecute = null)
     {
         this.execute = async (value, ct) =>
         {

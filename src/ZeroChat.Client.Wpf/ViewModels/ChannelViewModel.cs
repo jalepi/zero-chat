@@ -2,7 +2,7 @@
 
 public class ChannelViewModel : BaseViewModel
 {
-    public ChannelViewModel(Dispatcher dispatcher, PushAsync<RequestCall> sendRequest)
+    public ChannelViewModel(Dispatcher dispatcher, SendAsync<RequestCall> sendRequest)
     {
         ComposeMessageCommand = new AsyncCommand<string>(execute: (s, ct) =>
         {

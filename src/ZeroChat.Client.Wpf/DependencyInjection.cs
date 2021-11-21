@@ -16,8 +16,8 @@ internal static class DependencyInjection
         var requestChannel = Channel.CreateBounded<RequestCall>(options);
 
         services.AddSingleton(Dispatcher.CurrentDispatcher);
-        services.AddSingleton<PullAsync<RequestCall>>(requestChannel.Reader.ReadAsync);
-        services.AddSingleton<PushAsync<RequestCall>>(requestChannel.Writer.WriteAsync);
+        services.AddSingleton<ReceiveAsync<RequestCall>>(requestChannel.Reader.ReadAsync);
+        services.AddSingleton<SendAsync<RequestCall>>(requestChannel.Writer.WriteAsync);
 
         services.AddSingleton(provider => new RequestRunner("tcp://localhost:5559"));
         services.AddSingleton<RequestOptions>();
@@ -36,7 +36,7 @@ internal static class DependencyInjection
             };
 
             var dispatcher = provider.GetRequiredService<Dispatcher>();
-            var sendRequest = provider.GetRequiredService<PushAsync<RequestCall>>();
+            var sendRequest = provider.GetRequiredService<SendAsync<RequestCall>>();
             var channel = new ChannelViewModel(dispatcher, sendRequest)
             {
                 ChannelId = "DefaultChannel",

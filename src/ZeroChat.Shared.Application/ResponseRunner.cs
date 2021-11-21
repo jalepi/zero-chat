@@ -1,6 +1,6 @@
 ﻿namespace ZeroChat.Shared;
 
-public record ResponseOptions(Handle<Request, Response> HandlAsync);
+public record ResponseOptions(HandleAsync<Request, Response> HandlAsync);
 
 public record ResponseRunner(string ConnectionString) : IRunner<ResponseOptions>
 {

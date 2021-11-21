@@ -18,7 +18,7 @@ class Program
         var requestChannel = Channel.CreateBounded<RequestCall>(options);
 
         var messageRequestHandler = new MessageRequestHandler(
-            PushAsync: messageChannel.Writer.WriteAsync);
+            SendAsync: messageChannel.Writer.WriteAsync);
 
         var responseRunner = new ResponseRunner(ConnectionString: "@tcp://localhost:5559");
         var responseOptions = new ResponseOptions(
@@ -26,20 +26,20 @@ class Program
 
         var publisherRunner = new PublisherRunner(ConnectionString: "@tcp://localhost:5560");
         var publisherOptions = new PublisherOptions(
-            PullAsync: messageChannel.Reader.ReadAsync);
+            ReceiveAsync: messageChannel.Reader.ReadAsync);
 
         var subscriberRunner = new SubscriberRunner(ConnectionString: "tcp://localhost:5560");
         var subscriberOptions = new SubscriberOptions(
             Topic: "",
-            PushAsync: (message, ct) => ValueTask.CompletedTask);
+            SendAsync: (message, ct) => ValueTask.CompletedTask);
 
         var requestRunner = new RequestRunner(ConnectionString: "tcp://localhost:5559");
         var requestOptions = new RequestOptions(
-            PullAsync: requestChannel.Reader.ReadAsync);
+            ReceiveAsync: requestChannel.Reader.ReadAsync);
 
         var consoleRequestRunner = new ConsoleRequestRunner();
         var consoleRequestOptions = new ConsoleRequestOptions(
-            PushAsync: requestChannel.Writer.WriteAsync);
+            SendAsync: requestChannel.Writer.WriteAsync);
 
         CancellationTokenSource cts = new();
 

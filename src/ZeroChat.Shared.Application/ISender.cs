@@ -2,5 +2,5 @@
 
 public interface ISender<T>
 {
-    ValueTask PushAsync(T value, CancellationToken cancellationToken);
+    ValueTask SendAsync(T value, CancellationToken cancellationToken);
 }

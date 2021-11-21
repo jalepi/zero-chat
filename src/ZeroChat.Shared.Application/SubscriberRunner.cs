@@ -1,6 +1,6 @@
 ﻿namespace ZeroChat.Shared;
 
-public record SubscriberOptions(string Topic, PushAsync<Message> PushAsync);
+public record SubscriberOptions(string Topic, SendAsync<Message> SendAsync);
 
 public record SubscriberRunner(string ConnectionString) : IRunner<SubscriberOptions>
 {
@@ -19,7 +19,7 @@ public record SubscriberRunner(string ConnectionString) : IRunner<SubscriberOpti
             var message = new Message(topic, content);
 
             Console.WriteLine($"sub => message: {message}");
-            await Options.PushAsync(message, cancellationToken);
+            await Options.SendAsync(message, cancellationToken);
         }
     }
 }

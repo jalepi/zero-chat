@@ -1,7 +1,7 @@
 ﻿using ZeroChat.Shared;
 using ZeroChat.Shared.Protocols;
 
-internal record ConsoleRequestOptions(PushAsync<RequestCall> PushAsync);
+internal record ConsoleRequestOptions(SendAsync<RequestCall> SendAsync);
 internal record ConsoleRequestRunner : IRunner<ConsoleRequestOptions>
 {
     public async Task RunAsync(ConsoleRequestOptions options, CancellationToken cancellationToken)
@@ -24,7 +24,7 @@ internal record ConsoleRequestRunner : IRunner<ConsoleRequestOptions>
                 });
 
                 Console.WriteLine($"console in: request: {request}");
-                await options.PushAsync(requestCall, cancellationToken);
+                await options.SendAsync(requestCall, cancellationToken);
             }
             catch (Exception ex)
             {

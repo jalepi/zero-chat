@@ -1,6 +1,6 @@
 ﻿namespace ZeroChat.Shared;
 
-public record RequestOptions(PullAsync<RequestCall> PullAsync);
+public record RequestOptions(ReceiveAsync<RequestCall> ReceiveAsync);
 
 public record RequestRunner(string ConnectionString) : IRunner<RequestOptions>
 {
@@ -10,7 +10,7 @@ public record RequestRunner(string ConnectionString) : IRunner<RequestOptions>
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var requestCall = await Options.PullAsync(cancellationToken);
+            var requestCall = await Options.ReceiveAsync(cancellationToken);
 
             var (request, callback) = (requestCall.Request, requestCall.Callback);
 

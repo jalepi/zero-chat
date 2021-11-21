@@ -1,6 +1,6 @@
 ﻿namespace ZeroChat.Shared;
 
-public record PublisherOptions(PullAsync<Message> PullAsync);
+public record PublisherOptions(ReceiveAsync<Message> ReceiveAsync);
 
 public record PublisherRunner(string ConnectionString) : IRunner<PublisherOptions>
 {
@@ -10,7 +10,7 @@ public record PublisherRunner(string ConnectionString) : IRunner<PublisherOption
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var message = await options.PullAsync(cancellationToken);
+            var message = await options.ReceiveAsync(cancellationToken);
 
             socket.SendMoreFrame(message.Topic);
             socket.SendFrame(message.Payload);

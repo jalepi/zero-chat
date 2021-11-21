@@ -1,11 +1,11 @@
 ﻿namespace ZeroChat.Shared;
 
-public record MessageRequestHandler(PushAsync<Message> PushAsync) : IHandler<Request, Response>
+public record MessageRequestHandler(SendAsync<Message> SendAsync) : IHandler<Request, Response>
 {
     public async ValueTask<Response> HandleAsync(Request request, CancellationToken cancellationToken)
     {
         var message = new Message(request.Topic, request.Payload);
-        await PushAsync(message, cancellationToken);
+        await SendAsync(message, cancellationToken);
         return new Response(Guid.NewGuid().ToString());
     }
 }
