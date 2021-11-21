@@ -15,10 +15,12 @@ internal static class DependencyInjection
 
         var requestChannel = Channel.CreateBounded<RequestCall>(options);
 
+        services.AddSingleton<BackgroundService>();
         services.AddSingleton(Dispatcher.CurrentDispatcher);
         services.AddSingleton<ReceiveAsync<RequestCall>>(requestChannel.Reader.ReadAsync);
         services.AddSingleton<SendAsync<RequestCall>>(requestChannel.Writer.WriteAsync);
 
+        services.AddSingleton(provider => new SubscriberRunner("tcp://localhost:5560"));
         services.AddSingleton(provider => new RequestRunner("tcp://localhost:5559"));
         services.AddSingleton<RequestOptions>();
 
@@ -30,17 +32,21 @@ internal static class DependencyInjection
 
         services.AddSingleton(provider =>
         {
-            var messages = new ObservableCollection<ChannelMessageViewModel>
-            {
-
-            };
-
+            var topic = "DefaultChannel";
             var dispatcher = provider.GetRequiredService<Dispatcher>();
+
             var sendRequest = provider.GetRequiredService<SendAsync<RequestCall>>();
             var channel = new ChannelViewModel(dispatcher, sendRequest)
             {
-                ChannelId = "DefaultChannel",
+                ChannelId = topic,
             };
+            var backgroundService = provider.GetRequiredService<BackgroundService>();
+            var subscriberRunner = provider.GetRequiredService<SubscriberRunner>();
+            var subscriberOptions = new SubscriberOptions(
+                Topic: channel.ChannelId,
+                SendAsync: channel.ReceiveMessageAsync);
+
+            backgroundService.Start(subscriberRunner, subscriberOptions, default);
 
             return new ApplicationViewModel(channels: new ObservableCollection<ChannelViewModel>
             {

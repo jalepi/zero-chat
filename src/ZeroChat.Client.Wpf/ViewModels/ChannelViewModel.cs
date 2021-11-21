@@ -2,22 +2,20 @@
 
 public class ChannelViewModel : BaseViewModel
 {
+    private Dispatcher dispatcher;
     public ChannelViewModel(Dispatcher dispatcher, SendAsync<RequestCall> sendRequest)
     {
+        this.dispatcher = dispatcher;
         ComposeMessageCommand = new AsyncCommand<string>(execute: (s, ct) =>
         {
-            var request = new Request("default", "hello world");
+            var request = new Request(
+                Topic: ChannelId,
+                Payload: ComposingText);
+
             var requestCall = new RequestCall(request, response =>
             {
                 dispatcher.BeginInvoke(() =>
                 {
-                    Messages.Add(new ChannelMessageViewModel
-                    {
-                        AuthorId = "me",
-                        Text = response.Payload,
-                        Timestamp = DateTime.Now,
-                    });
-
                     ComposingText = "";
                 });
             });
@@ -37,4 +35,20 @@ public class ChannelViewModel : BaseViewModel
     }
 
     public ICollection<ChannelMessageViewModel> Messages { get; } = new ObservableCollection<ChannelMessageViewModel>();
+
+    public ValueTask ReceiveMessageAsync(Message message, CancellationToken cancellationToken)
+    {
+        dispatcher.InvokeAsync(() =>
+        {
+            Messages.Add(new ChannelMessageViewModel
+            {
+                AuthorId = "me",
+                Text = message.Payload,
+                Timestamp = DateTimeOffset.UtcNow,
+            });
+        }, 
+        priority: DispatcherPriority.Background, 
+        cancellationToken: cancellationToken);
+        return ValueTask.CompletedTask;
+    }
 }

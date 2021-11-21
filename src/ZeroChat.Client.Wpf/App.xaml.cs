@@ -30,7 +30,7 @@ namespace ZeroChat.Client
             var requestRunner = serviceProvider.GetRequiredService<RequestRunner>();
             var requestOptions = serviceProvider.GetRequiredService<RequestOptions>();
 
-            var backgroundService = new BackgroundService();
+            var backgroundService = serviceProvider.GetRequiredService<BackgroundService>();
             backgroundService.Start(requestRunner, requestOptions, cts.Token);
 
             serviceProvider.GetRequiredService<MainWindow>().Show();
