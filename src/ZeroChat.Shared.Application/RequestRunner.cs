@@ -4,13 +4,13 @@ public record RequestOptions(ReceiveAsync<RequestCall> ReceiveAsync);
 
 public record RequestRunner(string ConnectionString) : IRunner<RequestOptions>
 {
-    public async Task RunAsync(RequestOptions Options, CancellationToken cancellationToken)
+    public async Task RunAsync(RequestOptions options, CancellationToken cancellationToken)
     {
         using var socket = new RequestSocket(ConnectionString);
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var requestCall = await Options.ReceiveAsync(cancellationToken);
+            var requestCall = await options.ReceiveAsync(cancellationToken);
 
             var (request, callback) = (requestCall.Request, requestCall.Callback);
 

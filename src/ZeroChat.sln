@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Shared.Domain", "Z
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroChat.Shared.Application", "ZeroChat.Shared.Application\ZeroChat.Shared.Application.csproj", "{71B45D16-8CA8-4434-BD70-0FAB657D4001}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeroChat.Shared.Application.Tests", "ZeroChat.Shared.Application.Tests\ZeroChat.Shared.Application.Tests.csproj", "{D6814054-E98D-4A53-BB86-CC73E7057343}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71B45D16-8CA8-4434-BD70-0FAB657D4001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6814054-E98D-4A53-BB86-CC73E7057343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6814054-E98D-4A53-BB86-CC73E7057343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6814054-E98D-4A53-BB86-CC73E7057343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6814054-E98D-4A53-BB86-CC73E7057343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
