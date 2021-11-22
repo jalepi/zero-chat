@@ -12,16 +12,10 @@ namespace ZeroChat.Client
 
         public App()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            var appSettings = configuration.Get<AppSettings>();
-
             var options = new ServiceProviderOptions { ValidateOnBuild = true };
 
             serviceProvider = new ServiceCollection()
-                .ConfigureServices(appSettings)
+                .ConfigureServices()
                 .BuildServiceProvider(options);
         }
 

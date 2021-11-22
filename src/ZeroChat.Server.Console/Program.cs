@@ -6,7 +6,8 @@ class Program
 {
     public static async Task Main(string[] args)
     {
-        _ = args;
+        var (requestPort, messagePort) = ReadPorts(args);
+
         var options = new BoundedChannelOptions(100)
         {
             FullMode = BoundedChannelFullMode.Wait,
@@ -20,20 +21,20 @@ class Program
         var messageRequestHandler = new MessageRequestHandler(
             SendAsync: messageChannel.Writer.WriteAsync);
 
-        var responseRunner = new ResponseRunner(ConnectionString: "@tcp://localhost:5559");
+        var responseRunner = new ResponseRunner(ConnectionString: $"@tcp://localhost:{requestPort}");
         var responseOptions = new ResponseOptions(
             HandlAsync: messageRequestHandler.HandleAsync);
 
-        var publisherRunner = new PublisherRunner(ConnectionString: "@tcp://localhost:5560");
+        var publisherRunner = new PublisherRunner(ConnectionString: $"@tcp://localhost:{messagePort}");
         var publisherOptions = new PublisherOptions(
             ReceiveAsync: messageChannel.Reader.ReadAsync);
 
-        var subscriberRunner = new SubscriberRunner(ConnectionString: "tcp://localhost:5560");
+        var subscriberRunner = new SubscriberRunner(ConnectionString: $"tcp://localhost:{messagePort}");
         var subscriberOptions = new SubscriberOptions(
             Topic: "",
             SendAsync: (message, ct) => ValueTask.CompletedTask);
 
-        var requestRunner = new RequestRunner(ConnectionString: "tcp://localhost:5559");
+        var requestRunner = new RequestRunner(ConnectionString: $"tcp://localhost:{requestPort}");
         var requestOptions = new RequestOptions(
             ReceiveAsync: requestChannel.Reader.ReadAsync);
 
@@ -63,6 +64,33 @@ class Program
             cts.Cancel();
             Thread.Sleep(1_000);
         }
+    }
+
+    private static (int RequestPort, int MessagePort) ReadPorts(string[] args)
+    {
+        if (args == null || args.Length == 0)
+        {
+            return (8859, 8860);
+        }
+
+        var arg1 = (args != null && args.Length > 0) ? args[0] : null;
+        var arg2 = (args != null && args.Length > 1) ? args[1] : null;
+
+        var requestPort = ReadPort("Provide port number for request socket: ", arg1);
+        var messagePort = ReadPort("Provide port number for message socket: ", arg2);
+
+        return (requestPort, messagePort);
+    }
+
+    private static int ReadPort(string message, string? arg)
+    {
+        int port;
+        while (!int.TryParse(arg, out port))
+        {
+            Console.WriteLine(message);
+            arg = Console.ReadLine();
+        }
+        return port;
     }
 }
 

@@ -2,10 +2,8 @@
 
 internal static class DependencyInjection
 {
-    public static IServiceCollection ConfigureServices(this IServiceCollection services, AppSettings appSettings)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
-        _ = appSettings;
-
         var options = new BoundedChannelOptions(100)
         {
             FullMode = BoundedChannelFullMode.Wait,
@@ -23,12 +21,6 @@ internal static class DependencyInjection
         services.AddSingleton(provider => new SubscriberRunner("tcp://localhost:5560"));
         services.AddSingleton(provider => new RequestRunner("tcp://localhost:5559"));
         services.AddSingleton<RequestOptions>();
-
-        services.AddSingleton(new ConnectionSettings
-        {
-            RequestService = ConnectionSettings.DefaultRequestService,
-            MessageService = ConnectionSettings.DefaultMessageService,
-        });
 
         services.AddSingleton(provider =>
         {
