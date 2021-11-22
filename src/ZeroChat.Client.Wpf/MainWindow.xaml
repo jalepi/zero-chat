@@ -50,10 +50,23 @@
                         <DataTemplate>
                             <StackPanel Orientation="Vertical"
                                         HorizontalAlignment="{Binding HorizontalAlignment}"
-                                        Margin="20">
-                                <TextBlock Text="{Binding AuthorId}" />
-                                <TextBlock Text="{Binding Text}" />
-                                <TextBlock Text="{Binding Timestamp}" />
+                                        Margin="5">
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextWrapping"
+                                                Value="Wrap" />
+                                        <Setter Property="HorizontalAlignment"
+                                                Value="{Binding HorizontalAlignment}" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="{Binding Text}"
+                                           FontSize="12pt" />
+                                <TextBlock FontStyle="Italic"
+                                           FontSize="10pt" >
+                                    <Run Text="{Binding AuthorId}" />
+                                    <Run Text=" at " />
+                                    <Run Text="{Binding Timestamp}" /></TextBlock>
+                                <Separator Margin="0 5" />
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
