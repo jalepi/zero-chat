@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -12,6 +11,8 @@ namespace ZeroChat.Shared.Application.Tests;
 public class EndToEndTests : IDisposable
 {
     private readonly CancellationTokenSource cts = new();
+
+    void IDisposable.Dispose() => cts.Cancel();
 
     [Theory]
     [InlineData("hello world")]
@@ -107,6 +108,4 @@ public class EndToEndTests : IDisposable
             Assert.Null(subscribeMessage);
         }
     }
-
-    void IDisposable.Dispose() => cts.Cancel();
 }

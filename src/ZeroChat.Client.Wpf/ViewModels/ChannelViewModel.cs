@@ -8,27 +8,36 @@ public class ChannelViewModel : BaseViewModel
         this.dispatcher = dispatcher;
         ComposeMessageCommand = new AsyncCommand<string>(execute: (s, ct) =>
         {
+            var chatMessage = new ChatMessage(
+                AuthorId: this.AuthorId,
+                Text: ComposingText ?? "",
+                Timestamp: DateTimeOffset.UtcNow);
+
+            var payload = JsonSerializer.Serialize(chatMessage);
+
             var request = new Request(
                 Topic: ChannelId,
-                Payload: ComposingText);
+                Payload: payload);
 
             var requestCall = new RequestCall(request, response =>
             {
                 dispatcher.BeginInvoke(() =>
                 {
-                    ComposingText = "";
+                    ComposingText = null;
                 });
             });
             return sendRequest(requestCall, ct);
         });
     }
 
+    public string AuthorId { get; init; } = Guid.NewGuid().ToString();
+
     public string ChannelId { get; init; } = "";
 
     public AsyncCommand<string> ComposeMessageCommand { get; }
 
-    private string _composingText = "";
-    public string ComposingText
+    private string? _composingText = null;
+    public string? ComposingText
     {
         get => _composingText;
         set => SetProperty(ref _composingText, value, ComposeMessageCommand.RaiseCanExecuteChanged);
@@ -40,14 +49,21 @@ public class ChannelViewModel : BaseViewModel
     {
         dispatcher.InvokeAsync(() =>
         {
+            var chatMessage = JsonSerializer.Deserialize<ChatMessage>(message.Payload);
+            if (chatMessage == null) return;
+
             Messages.Add(new ChannelMessageViewModel
             {
-                AuthorId = "me",
-                Text = message.Payload,
-                Timestamp = DateTimeOffset.UtcNow,
+                AuthorId = chatMessage.AuthorId,
+                Text = chatMessage.Text,
+                Timestamp = chatMessage.Timestamp,
+                IsMine = chatMessage.AuthorId != this.AuthorId,
+                HorizontalAlignment = chatMessage.AuthorId != this.AuthorId
+                    ? HorizontalAlignment.Left
+                    : HorizontalAlignment.Right,
             });
-        }, 
-        priority: DispatcherPriority.Background, 
+        },
+        priority: DispatcherPriority.Background,
         cancellationToken: cancellationToken);
         return ValueTask.CompletedTask;
     }

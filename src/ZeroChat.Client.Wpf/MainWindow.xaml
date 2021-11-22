@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:vm="clr-namespace:ZeroChat.Client.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type={x:Type vm:ApplicationViewModel}}"
@@ -17,15 +18,39 @@
         <DataTemplate x:Key="ChannelContentDataTemplate"
                       DataType="{x:Type vm:ChannelViewModel}">
             <Grid>
+                <Grid.Resources>
+                    <CollectionViewSource x:Key="MessagesViewSource"
+                                          Source="{Binding Messages}">
+                        <CollectionViewSource.SortDescriptions>
+                            <scm:SortDescription Direction="Descending"
+                                                 PropertyName="Timestamp" />
+                        </CollectionViewSource.SortDescriptions>
+                    </CollectionViewSource>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ItemsControl Grid.Row="0"
-                              ItemsSource="{Binding Messages}">
+                              ItemsSource="{Binding Source={StaticResource MessagesViewSource}}">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical"
+                                        HorizontalAlignment="{Binding HorizontalAlignment}"
+                                        Margin="20">
                                 <TextBlock Text="{Binding AuthorId}" />
                                 <TextBlock Text="{Binding Text}" />
                                 <TextBlock Text="{Binding Timestamp}" />
@@ -33,12 +58,21 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <StackPanel Grid.Row="1">
-                    <TextBox Text="{Binding ComposingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button Command="{Binding ComposeMessageCommand}"
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding ComposingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Grid.Column="1"
+                            Command="{Binding ComposeMessageCommand}"
                             CommandParameter="{Binding ComposingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             IsDefault="True">Send</Button>
-                </StackPanel>
+                </Grid>
             </Grid>
         </DataTemplate>
     </Window.Resources>
