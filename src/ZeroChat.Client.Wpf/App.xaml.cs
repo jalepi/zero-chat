@@ -14,8 +14,12 @@ namespace ZeroChat.Client
         {
             var options = new ServiceProviderOptions { ValidateOnBuild = true };
 
+            var connectionSettings = new ConnectionSettings(
+                RequestUrl: "tcp://localhost:5559",
+                MessageUrl: "tcp://localhost:5560");
+
             serviceProvider = new ServiceCollection()
-                .ConfigureServices()
+                .ConfigureServices(connectionSettings)
                 .BuildServiceProvider(options);
         }
 

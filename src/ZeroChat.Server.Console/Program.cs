@@ -70,7 +70,7 @@ class Program
     {
         if (args == null || args.Length == 0)
         {
-            return (8859, 8860);
+            return (5559, 5560);
         }
 
         var arg1 = (args != null && args.Length > 0) ? args[0] : null;

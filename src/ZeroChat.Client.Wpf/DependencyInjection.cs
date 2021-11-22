@@ -2,7 +2,7 @@
 
 internal static class DependencyInjection
 {
-    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, ConnectionSettings connectionSettings)
     {
         var options = new BoundedChannelOptions(100)
         {
