@@ -28,10 +28,10 @@ public class EndToEndTests : IDisposable
         var channel = Channel.CreateBounded<RequestCall>(options);
         var backgroundService = new BackgroundService();
 
-        var requestRunner = new RequestRunner(ConnectionString: "tcp://localhost:5559");
+        var requestRunner = new RequestRunner(ConnectionString: "inproc://request");
         var requestOptions = new RequestOptions(ReceiveAsync: channel.Reader.ReadAsync);
 
-        var responseRunner = new ResponseRunner(ConnectionString: "@tcp://localhost:5559");
+        var responseRunner = new ResponseRunner(ConnectionString: "@inproc://request");
         var responseOptions = new ResponseOptions(HandleAsync: (request, ct) =>
         {
             var payload = new string(request.Payload);
@@ -72,12 +72,12 @@ public class EndToEndTests : IDisposable
         };
         var channel = Channel.CreateBounded<Message>(options);
 
-        var publisherRunner = new PublisherRunner(ConnectionString: "@tcp://localhost:5560");
+        var publisherRunner = new PublisherRunner(ConnectionString: "@inproc://message");
         var publisherOptions = new PublisherOptions(
             ReceiveAsync: channel.Reader.ReadAsync);
 
         Message? subscribeMessage = default;
-        var subscriberRunner = new SubscriberRunner(ConnectionString: "tcp://localhost:5560");
+        var subscriberRunner = new SubscriberRunner(ConnectionString: "inproc://message");
         var subscriberOptions = new SubscriberOptions(
             Topic: subscribeTopic,
             SendAsync: (message, ct) =>
