@@ -46,6 +46,7 @@ internal static class DependencyInjection
             });
         });
 
+        services.AddSingleton<ConfigurationWindow>();
         services.AddSingleton<MainWindow>();
 
         return services;

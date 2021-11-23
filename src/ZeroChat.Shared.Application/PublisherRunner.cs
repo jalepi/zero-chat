@@ -14,8 +14,6 @@ public record PublisherRunner(string ConnectionString) : IRunner<PublisherOption
 
             socket.SendMoreFrame(message.Topic);
             socket.SendFrame(message.Payload);
-
-            Console.WriteLine($"pub => message: {message}");
         }
     }
 }

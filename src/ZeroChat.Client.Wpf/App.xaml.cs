@@ -14,9 +14,14 @@ namespace ZeroChat.Client
         {
             var options = new ServiceProviderOptions { ValidateOnBuild = true };
 
+            var args = Environment.GetCommandLineArgs();
+
+            var requestPort = args != null && args.Length > 0 && int.TryParse(args[0], out var rp) ? rp : 5559;
+            var messagePort = args != null && args.Length > 1 && int.TryParse(args[1], out var mp) ? mp : 5560;
+
             var connectionSettings = new ConnectionSettings(
-                RequestUrl: "tcp://localhost:5559",
-                MessageUrl: "tcp://localhost:5560");
+                RequestUrl: $"tcp://localhost:{requestPort}",
+                MessageUrl: $"tcp://localhost:{messagePort}");
 
             serviceProvider = new ServiceCollection()
                 .ConfigureServices(connectionSettings)

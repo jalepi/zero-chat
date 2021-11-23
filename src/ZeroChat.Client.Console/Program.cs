@@ -15,28 +15,35 @@ class Program
             SingleWriter = false,
         };
 
-        var messageChannel = Channel.CreateBounded<Message>(options);
+        var requestChannel = Channel.CreateBounded<RequestCall>(options);
 
-        var messageRequestHandler = new MessageRequestHandler(
-            SendAsync: messageChannel.Writer.WriteAsync);
+        var subscriberConnectionString = $"tcp://localhost:{messagePort}";
+        var subscriberRunner = new SubscriberRunner(ConnectionString: subscriberConnectionString);
+        var subscriberOptions = new SubscriberOptions(
+            Topic: "",
+            SendAsync: (message, ct) =>
+            {
+                Console.WriteLine($"sub: {message}");
+                return ValueTask.CompletedTask;
+            });
 
-        var responseConnectionString = $"@tcp://localhost:{requestPort}";
-        var responseRunner = new ResponseRunner(ConnectionString: responseConnectionString);
-        var responseOptions = new ResponseOptions(
-            HandlAsync: messageRequestHandler.HandleAsync);
+        var requestConnectionString = $"tcp://localhost:{requestPort}";
+        var requestRunner = new RequestRunner(ConnectionString: requestConnectionString);
+        var requestOptions = new RequestOptions(
+            ReceiveAsync: requestChannel.Reader.ReadAsync);
 
-        var publisherConnectionString = $"@tcp://localhost:{messagePort}";
-        var publisherRunner = new PublisherRunner(ConnectionString: publisherConnectionString);
-        var publisherOptions = new PublisherOptions(
-            ReceiveAsync: messageChannel.Reader.ReadAsync);
+        var consoleRequestRunner = new ConsoleRequestRunner();
+        var consoleRequestOptions = new ConsoleRequestOptions(
+            SendAsync: requestChannel.Writer.WriteAsync);
 
         CancellationTokenSource cts = new();
 
+        var backgroundService = new BackgroundService();
         try
         {
-            var backgroundService = new BackgroundService();
-            backgroundService.Start(responseRunner, responseOptions, cts.Token);
-            backgroundService.Start(publisherRunner, publisherOptions, cts.Token);
+            backgroundService.Start(subscriberRunner, subscriberOptions, cts.Token);
+            backgroundService.Start(requestRunner, requestOptions, cts.Token);
+            backgroundService.Start(consoleRequestRunner, consoleRequestOptions, cts.Token);
 
             while (true)
             {

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZeroChat.Shared.Application\ZeroChat.Shared.Application.csproj" />
+    <ProjectReference Include="..\ZeroChat.Shared.Domain\ZeroChat.Shared.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

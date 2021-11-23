@@ -17,16 +17,12 @@ public record RequestRunner(string ConnectionString) : IRunner<RequestOptions>
             socket.SendMoreFrame(request.Topic);
             socket.SendFrame(request.Payload);
 
-            Console.WriteLine($"req out => request: {request}");
-
             var responseMessage = socket.ReceiveMultipartMessage();
             var responsePayload = responseMessage.Pop().ConvertToString();
 
             var response = new Response(Payload: responsePayload);
 
             callback.Invoke(response);
-
-            Console.WriteLine($"req in => response: {response}");
         }
     }
 }

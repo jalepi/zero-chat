@@ -18,7 +18,6 @@ public record SubscriberRunner(string ConnectionString) : IRunner<SubscriberOpti
 
             var message = new Message(topic, content);
 
-            Console.WriteLine($"sub => message: {message}");
             await options.SendAsync(message, cancellationToken);
         }
     }
