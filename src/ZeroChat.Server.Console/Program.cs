@@ -23,7 +23,7 @@ class Program
         var responseConnectionString = $"@tcp://localhost:{requestPort}";
         var responseRunner = new ResponseRunner(ConnectionString: responseConnectionString);
         var responseOptions = new ResponseOptions(
-            HandlAsync: messageRequestHandler.HandleAsync);
+            HandleAsync: messageRequestHandler.HandleAsync);
 
         var publisherConnectionString = $"@tcp://localhost:{messagePort}";
         var publisherRunner = new PublisherRunner(ConnectionString: publisherConnectionString);
@@ -38,6 +38,7 @@ class Program
             backgroundService.Start(responseRunner, responseOptions, cts.Token);
             backgroundService.Start(publisherRunner, publisherOptions, cts.Token);
 
+            Console.WriteLine($"Listening to Request: {responseConnectionString}, Message: {publisherConnectionString}");
             while (true)
             {
                 await Task.Delay(1000);

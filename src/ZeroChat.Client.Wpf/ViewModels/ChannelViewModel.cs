@@ -2,7 +2,7 @@
 
 public class ChannelViewModel : BaseViewModel
 {
-    private Dispatcher dispatcher;
+    private readonly Dispatcher dispatcher;
     public ChannelViewModel(Dispatcher dispatcher, SendAsync<RequestCall> sendRequest)
     {
         this.dispatcher = dispatcher;
@@ -13,6 +13,7 @@ public class ChannelViewModel : BaseViewModel
                 Text: ComposingText ?? "",
                 Timestamp: DateTimeOffset.UtcNow);
 
+            // TODO: 2021-11-23 implement proper serialization
             var payload = JsonSerializer.Serialize(chatMessage);
 
             var request = new Request(
@@ -49,6 +50,7 @@ public class ChannelViewModel : BaseViewModel
     {
         dispatcher.InvokeAsync(() =>
         {
+            // TODO: 2021-11-23 implement proper serialization
             var chatMessage = JsonSerializer.Deserialize<ChatMessage>(message.Payload);
             if (chatMessage == null) return;
 

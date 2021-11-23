@@ -12,7 +12,11 @@ public class EndToEndTests : IDisposable
 {
     private readonly CancellationTokenSource cts = new();
 
-    void IDisposable.Dispose() => cts.Cancel();
+    void IDisposable.Dispose()
+    {
+        cts.Cancel();
+        GC.SuppressFinalize(this);
+    }
 
     [Theory]
     [InlineData("hello world")]
@@ -28,7 +32,7 @@ public class EndToEndTests : IDisposable
         var requestOptions = new RequestOptions(ReceiveAsync: channel.Reader.ReadAsync);
 
         var responseRunner = new ResponseRunner(ConnectionString: "@tcp://localhost:5559");
-        var responseOptions = new ResponseOptions(HandlAsync: (request, ct) =>
+        var responseOptions = new ResponseOptions(HandleAsync: (request, ct) =>
         {
             var payload = new string(request.Payload);
             var response = new Response(payload);

@@ -18,8 +18,8 @@ internal static class DependencyInjection
         services.AddSingleton<ReceiveAsync<RequestCall>>(requestChannel.Reader.ReadAsync);
         services.AddSingleton<SendAsync<RequestCall>>(requestChannel.Writer.WriteAsync);
 
-        services.AddSingleton(provider => new SubscriberRunner("tcp://localhost:5560"));
-        services.AddSingleton(provider => new RequestRunner("tcp://localhost:5559"));
+        services.AddSingleton(provider => new RequestRunner(connectionSettings.RequestUrl));
+        services.AddSingleton(provider => new SubscriberRunner(connectionSettings.MessageUrl));
         services.AddSingleton<RequestOptions>();
 
         services.AddSingleton(provider =>
